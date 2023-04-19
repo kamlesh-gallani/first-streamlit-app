@@ -28,6 +28,10 @@ st.dataframe(fruits_to_show)
 
 st.header("Fruityvice Fruit Advice!")
 
+fruit_choice = st.text_input('What fruit would you like information about?','Kiwi')
+st.write('The user entered ', fruit_choice)
+
+
 fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
 # st.text(fruityvice_response.json())
 
@@ -35,3 +39,5 @@ fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon"
 fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 # Display the data on page
 st.dataframe(fruityvice_normalized)
+
+

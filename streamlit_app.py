@@ -38,6 +38,11 @@ def get_fruit_load_list():
         my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
         return my_cur.fetchall()
 
+def add_fruit_to_the_list(fruit_choice):
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute("insert into PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST values ('" +  fruit_choice + "')")
+        return "Thanks for adding " + fruit_choice
+
 # Section to display fruity vice api response
 st.header("Fruityvice Fruit Advice!")
 try:
@@ -56,12 +61,12 @@ if st.button('Get Fruit Load List'):
     my_data_rows = get_fruit_load_list()
     st.dataframe(my_data_rows)
 
+
+second_fruit_choice = st.text_input('Which fruit you would like to add?')
+if st.button('Add ' + second_fruit_choice + ' to the list'):
+   my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
+   response = add_fruit_to_the_list(second_fruit_choice) 
+   st.text(response)
+
 st.stop()
-
-
-
-second_fruit_choice = st.text_input('Which fruit you would like to add?','Jackfruit')
-st.write('Thanks for adding ', second_fruit_choice)
-
-my_cur.execute("insert into PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST values ('from streamlit')")
 

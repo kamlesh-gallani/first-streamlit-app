@@ -27,6 +27,13 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 # Display the table on the page.
 st.dataframe(fruits_to_show)
 
+# Function to get fruity vide data
+def get_fruityvice_data(fruit_choice):
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+    return fruityvice_normalized
+
+
 # Section to display fruity vice api response
 st.header("Fruityvice Fruit Advice!")
 try:
@@ -34,14 +41,12 @@ try:
     if not fruit_choice:
         st.error("Please select a fruit to get information")
     else:
-        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-        # Normalize the json data received from API response
-        fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-        # Display the data on page
-        st.dataframe(fruityvice_normalized)
+        response = get_fruityvice_data(fruit_choice)
+        st.dataframe(response)
+        
 except URLError as e:
     st.error()
-    
+
 st.stop()
 
 my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])

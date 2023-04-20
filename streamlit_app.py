@@ -44,7 +44,7 @@ def add_fruit_to_the_list(fruit_choice):
         return "Thanks for adding " + fruit_choice
 
 # Section to display fruity vice api response
-st.header("Fruityvice Fruit Advice!")
+st.header("View our Fruit List - Add your favorites!")
 try:
     fruit_choice = st.text_input('What fruit would you like information about?')
     if not fruit_choice:
@@ -56,7 +56,7 @@ try:
 except URLError as e:
     st.error()
 
-if st.button('Get Fruit Load List'):
+if st.button('Get Fruit List'):
     my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
     my_data_rows = get_fruit_load_list()
     st.dataframe(my_data_rows)
